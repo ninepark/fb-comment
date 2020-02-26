@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import {css} from "@emotion/core";
 import './App.css';
+import Test from 'components/Test';
+import Test2 from 'components/Test2';
+import Container from 'components/Container';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Container css={css`
+                background-color: white;
+              `}>
+                <Test/>
+                <Test2/>
+            </Container>
+        </div>
+    );
 }
 
 export default App;
