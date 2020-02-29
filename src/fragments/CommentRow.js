@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import {css, jsx} from "@emotion/core";
+import {css as cssEmotion, jsx} from "@emotion/core";
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
 import Avatar from "../components/Avatar";
@@ -9,20 +9,19 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
-import LikeIcon from "assets/like.png";
-import {
-    differenceInSeconds,
-    differenceInMinutes,
-    differenceInHours,
-    differenceInDays,
-    differenceInWeeks
-} from 'date-fns'
+
 import {connect} from "react-redux";
 import {commentCreator} from "../reducers/comment";
 import CommentInput from "./CommentInput";
 
+const cssCommentBox = cssEmotion`
+ background-color: #f2f3f5;
+ border-radius: 18px;
+ word-wrap: break-word;
+ padding: 8px 10px; 
+ `;
 
-function CommentRow({ no, type, name, content, postedTime, parentNo, deleteComment }) {
+function CommentRow({no, type, name, content, deleteComment}) {
     const [isShown, setIsShown] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [comState, setComState] = useState("show");
@@ -46,20 +45,12 @@ function CommentRow({ no, type, name, content, postedTime, parentNo, deleteComme
         setComState("show");
     };
 
-    const now = new Date();
-    let timeDiff = '';
-    const timeDiffText = ["주", "일", "시간", "분", "초"];
-    [differenceInWeeks, differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds].some((f, i) => {
-        timeDiff = `${Math.abs(f(new Date(postedTime), now))}${timeDiffText[i]}`;
-        return f(new Date(postedTime), now) !== 0;
-    });
-
     if (comState === "show") {
         return (
             <Grid container
                   onMouseEnter={() => setIsShown(true)}
                   onMouseLeave={() => setIsShown(false)}
-                  css={css`padding-bottom: 10px;`}
+                  css={cssEmotion`padding-bottom: 3px;`}
             >
                 {
                     type === "reply"
@@ -72,85 +63,17 @@ function CommentRow({ no, type, name, content, postedTime, parentNo, deleteComme
                 <Grid item xs={type === "comment" ? 9 : 8}>
                     <Grid container
                           direction="column"
-                          wrap="nowrap"
-                          css={css`
-                          background-color: #f2f3f5;
-                          border-radius: 18px;
-                          padding: 8px 10px;
-                          `}>
+                          wrap="nowrap">
                         <Grid item>
-                            <Typography
-                                component={"a"}
-                                textType={'userName'}
-                                hyperlink
-                                css={css`
-                                padding-right: 3px;
-                                `}>{name}</Typography>
-                            <Typography
-                                textType={'contents'}
-                                css={css`
-                                word-wrap: break-word;
-                            `}>{content}</Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container
-                          direction="row"
-                          justify="space-between"
-                          css={css`
-                          padding-top: 2px;
-                          margin-left: 10px;
-                          `}>
-                        <Grid item>
-                            <Typography
-                                component={"a"}
-                                hyperlink
-                                css={css`
-                                    padding-right: 3px;
-                                    `}>좋아요</Typography>
-                            <span>・</span>
-                            <Typography
-                                component={"a"}
-                                hyperlink
-                                css={css`
-                                    padding: 0 3px;
-                                    `}>답글 달기</Typography>
-                            <span>・</span>
-                            <Tooltip
-                                title={<Typography textType="tooltip" component={"p"}>
-                                    {postedTime}
-                                </Typography>}
-                                arrow
-                                css={css`display: inline-block;`}>
-                                <div>
-                                    <Typography hyperlink
-                                                textType={'postedTime'}>
-                                        {timeDiff}
-                                    </Typography>
-                                </div>
-                            </Tooltip>
-                        </Grid>
-                        <Grid item>
-                            <Grid container
-                                  alignItems="center"
-                                  css={css`
-                                    width: 30px;
-                                    background: #ffffff;
-                                    border-radius: 10px;
-                                    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
-                                    color: #8d949e;
-                                    font-size: 11px;
-                                    padding: 2px 4px;
-                                  `}>
-                                <img src={LikeIcon}
-                                     alt="like"
-                                     css={css`
-                                     width: 16px;
-                                     height: 16px;
-                                     margin-right: 3px;
-                                     `}
-                                />
-                                {2}
-                            </Grid>
+                            <div css={cssCommentBox}>
+                                <Typography
+                                    component={"a"}
+                                    textType={'userName'}
+                                    hyperlink
+                                    css={cssEmotion`padding-right: 3px;`}>{name}</Typography>
+                                <Typography
+                                    textType={'contents'}>{content}</Typography>
+                            </div>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -158,8 +81,7 @@ function CommentRow({ no, type, name, content, postedTime, parentNo, deleteComme
                     <>
                         <Grid item xs={1} container
                               alignItems='center'
-                              css={css`
-                              padding-bottom: 20px;
+                              css={cssEmotion`
                               padding-left: 5px;
                               `}>
                             <Tooltip title={
@@ -168,15 +90,9 @@ function CommentRow({ no, type, name, content, postedTime, parentNo, deleteComme
                                 </Typography>
                             }
                                      arrow
-                                     css={css`display: inline-block;`}>
-                                <div onClick={e => menuOpen(e)}>
-
-                                    <MoreHorizIcon
-                                        css={css`
-                                        color: gray;
-                                        cursor: pointer;
-                                        `}/>
-                                </div>
+                                     css={cssEmotion`display: inline-block;`}>
+                                <MoreHorizIcon onClick={e => menuOpen(e)}
+                                               css={cssEmotion`color: gray; ursor: pointer;`}/>
                             </Tooltip>
                         </Grid>
                         <Menu anchorEl={anchorEl}
@@ -202,16 +118,9 @@ CommentRow.propTypes = {
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    postedTime: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    addComment: (contents, time, parentNo, name) => {
-        dispatch(commentCreator.addComment(contents, time, parentNo, name));
-    },
-    updateComment: (no, contents) => {
-        dispatch(commentCreator.updateComment(no, contents));
-    },
     deleteComment: (no) => {
         dispatch(commentCreator.deleteComment(no));
     }

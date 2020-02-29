@@ -1,6 +1,6 @@
 /** @jsx jsx*/
 import {css, jsx} from "@emotion/core";
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 import Avatar from "components/Avatar";
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +10,7 @@ import {commentCreator} from "../reducers/comment";
 import lightFormat from 'date-fns/lightFormat'
 
 
-function CommentInput({type, parentNo=null, editNo=null, oldValue = '', editDone, addComment, updateComment}) {
+function CommentInput({type, parentNo=null, editNo=null, oldValue = '', editDone, inputClear, addComment, updateComment}) {
     const edit = oldValue !== '' ? true : false;
 
     const enterPress = (e) => {
@@ -20,7 +20,7 @@ function CommentInput({type, parentNo=null, editNo=null, oldValue = '', editDone
                 updateCom(editNo, e.target.value);
                 editDone();
             }
-
+            inputClear(parentNo);
             e.target.value = '';
         }
     };
@@ -86,9 +86,6 @@ const mapDispatchToProps = (dispatch) => ({
     },
     updateComment: (no, contents) => {
         dispatch(commentCreator.updateComment(no, contents));
-    },
-    deleteComment: (no) => {
-        dispatch(commentCreator.deleteComment(no));
     }
 });
 

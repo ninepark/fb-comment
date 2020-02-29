@@ -29,7 +29,9 @@ class Comments extends React.Component {
     componentDidMount() {
         const reactions = this.props.reactions;
         for (let i in reactions) {
-            if (reactions[i].some((v) => { return v === "Hojeong Choi" })) {
+            if (reactions[i].some((v) => {
+                return v === "Hojeong Choi"
+            })) {
                 this.setState({reactionClicked: true});
                 break;
             }
@@ -52,10 +54,23 @@ class Comments extends React.Component {
         this.setState({commentListOpend: !commentListOpend})
     };
 
+    commentList = (commentName) => {
+        if (commentName.length === 0 ) return null;
+        commentName.splice(0, commentName.length, ...(new Set(commentName)));
+        return commentName.map((v, i) => {
+            return (
+                <Typography key={i}
+                            textType="tooltip"
+                            component={"p"}>
+                    {v}
+                </Typography>
+            )
+        })
+    };
 
     render() {
-        const { reactions, comments } = this.props;
-        const { reactionClicked, commentListOpend } = this.state;
+        const {reactions, comments} = this.props;
+        const {reactionClicked, commentListOpend} = this.state;
 
         const commentCount = Object.keys(comments).length;
         const commentName = Object.values(comments).reduce((pv, cv) => {
@@ -78,17 +93,7 @@ class Comments extends React.Component {
                     </Grid>
                     <Grid item>
                         <Grid container alignItems="center">
-                            <Tooltip title={
-                                commentName.map((v, i) => {
-                                    return (
-                                        <Typography key={i}
-                                                    textType="tooltip"
-                                                    component={"p"}>
-                                            {v}
-                                        </Typography>
-                                    )
-                                })
-                            } arrow>
+                            <Tooltip title={this.commentList(commentName)} arrow>
                                 <div>
                                     <Typography
                                         textType={"count"}
@@ -151,7 +156,7 @@ class Comments extends React.Component {
             <Divider/>
             {
                 commentListOpend &&
-                <CommentList />
+                <CommentList/>
             }
         </>
     }

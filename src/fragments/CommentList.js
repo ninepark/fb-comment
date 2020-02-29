@@ -1,19 +1,19 @@
 /** @jsx jsx */
 import {css, jsx} from "@emotion/core";
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from "react-redux";
-import {commentCreator} from "../reducers/comment";
 
 import Grid from "@material-ui/core/Grid";
 import Container from "components/Container";
 import Typography from "components/Typography";
 import CommentRow from "./CommentRow";
 import CommentInput from "./CommentInput";
+import CommentRowButtons from "./CommentRowButtons";
 
-function CommentList({comments, deleteComment}) {
-    console.log(comments);
+function CommentList({comments}) {
+    const [addReplyArr, setAddReplyArr] = useState([]);
 
-    let commentKey = Object.keys(comments).filter(k => comments[k].parentNo === null);
+    const commentKey = Object.keys(comments).filter(k => comments[k].parentNo === null);
     let sortedComment = [];
     for (let k of commentKey) {
         let arr = [];
@@ -24,47 +24,63 @@ function CommentList({comments, deleteComment}) {
         sortedComment.push(arr);
     }
 
-    // const commentClicked = (no) => {
-    //     console.log('clicked no', no);
-    // };
+    const showReplyInput = (parentNo) => {
+        let arr = [...addReplyArr];
+        arr.push(parseInt(parentNo));
+        arr.splice(0, arr.length, ...(new Set(arr)));
+        setAddReplyArr(arr);
+    };
+
+    const removeReply = (parentNo) => {
+        let arr = [...addReplyArr];
+        let idx = arr.indexOf(parentNo);
+        arr.splice(idx, 1);
+        setAddReplyArr(arr);
+    };
+
+    const renderComment = (commentArr, parentNo) => {
+        let result = commentArr.map(com => {
+            return (<React.Fragment key={`com${com.no}`}>
+                    <CommentRow key={`row-${com.no}`}
+                                no={com.no}
+                                type={com.parentNo === null ? "comment" : "reply"}
+                                name={com.name}
+                                content={com.contents}/>
+                    <CommentRowButtons key={`btn-${com.no}`}
+                                       no={com.no}
+                                       type={com.parentNo === null ? "comment" : "reply"}
+                                       postedTime={com.time}
+                                       updated={com.updated}
+                                       reaction={com.reaction}
+                                       parentNo={com.parentNo}
+                                       addReplyBtn={showReplyInput}/>
+                </React.Fragment>
+            )
+        });
+        if (addReplyArr.includes(parseInt(parentNo))) {
+            result.push(
+                    <CommentInput key={`parComInput-${parentNo}`}
+                                  type={"reply"}
+                                  parentNo={parentNo}
+                                  inputClear={removeReply}/>
+                )
+        }
+
+        return result
+    };
 
     return (
         <Container>
-            <Grid container
-                  css={css`padding: 10px;`}>
-                <Typography hyperlink>
-                    댓글 38개 더 보기
-                </Typography>
-            </Grid>
-
-            <Container css={css`padding: 10px; padding-bottom: 0;`}>
+            <Container css={css`padding: 20px 10px; padding-bottom: 0;`}>
                 {
                     sortedComment.map((parComment, i) => {
                         const parentNo = parComment[0].no;
-                        let mainCom = parComment.map(com => {
-                            return (
-                                <CommentRow key={com.no}
-                                            no={com.no}
-                                            type={com.parentNo === null ? "comment" : "reply"}
-                                            name={com.name}
-                                            content={com.contents}
-                                            postedTime={com.time}
-                                            parentNo={parentNo}
-                                            // commentClicked={commentClicked}
-                                />
-                            )
-                        });
-                        mainCom.push(
-                            <CommentInput key={`parComInput${i}`}
-                                          type={"reply"}
-                                          parentNo={parentNo}/>
-                        );
-                        return mainCom
+                        return renderComment(parComment, parentNo);
                     })
                 }
             </Container>
-            <Container css={css`padding: 10px; padding-top: 0;`}>
-                <CommentInput type={"comment"} />
+            <Container css={css`padding: 0 10px;`}>
+                <CommentInput type={"comment"}/>
             </Container>
         </Container>
     )
@@ -76,16 +92,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    addComment: (contents, time, parentNo, name) => {
-        dispatch(commentCreator.addComment(contents, time, parentNo, name));
-    },
-    updateComment: (no, contents) => {
-        dispatch(commentCreator.updateComment(no, contents));
-    },
-    deleteComment: (no) => {
-        dispatch(commentCreator.deleteComment(no));
-    }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentList);
+export default connect(mapStateToProps)(CommentList);
