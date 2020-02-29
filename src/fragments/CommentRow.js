@@ -21,7 +21,23 @@ const cssCommentBox = cssEmotion`
  padding: 8px 10px; 
  `;
 
-function CommentRow({no, type, name, replyNo, content, comments, deleteComment}) {
+const cssMyComment = cssEmotion`
+height: 100%;
+background-color: blue;
+width: 1.5px;
+padding-left: -2px;
+margin-right: 3px;
+`;
+
+const cssMyReply = cssEmotion`
+height: 100%;
+background-color: blue;
+width: 1.5px;
+padding-left: -2px;
+margin-right: 3px;
+`;
+
+function CommentRow({no, type, name, replyNo, contents, comments, deleteComment}) {
     const [isShown, setIsShown] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [comState, setComState] = useState("show");
@@ -49,9 +65,13 @@ function CommentRow({no, type, name, replyNo, content, comments, deleteComment})
         if (replyNo) {
             let name = '';
             Object.values(comments).some((v) => {
+                if (v.name === "Hojeong Choi") return false;
+
                 if (v.no === replyNo.toString()) {
                     name = v.name;
+                    return true;
                 }
+                return false;
             });
 
             return (
@@ -64,6 +84,7 @@ function CommentRow({no, type, name, replyNo, content, comments, deleteComment})
 
     if (comState === "show") {
         return (
+
             <Grid container
                   onMouseEnter={() => setIsShown(true)}
                   onMouseLeave={() => setIsShown(false)}
@@ -74,9 +95,16 @@ function CommentRow({no, type, name, replyNo, content, comments, deleteComment})
                         ? <Grid item xs={1}></Grid>
                         : null
                 }
-                <Grid item container xs={1} justify="flex-end">
+
+                <Grid item container xs={1} justify={type==="comment" ? "flex-start" : "flex-end"}>
+                    {
+                        name === "Hojeong Choi"
+                            ? <div css={type==="comment" ? cssMyComment : cssMyReply}></div>
+                            : null
+                    }
                     <Avatar type={type}/>
                 </Grid>
+
                 <Grid item xs={type === "comment" ? 9 : 8}>
                     <Grid container
                           direction="column"
@@ -88,9 +116,9 @@ function CommentRow({no, type, name, replyNo, content, comments, deleteComment})
                                     textType={'userName'}
                                     hyperlink
                                     css={cssEmotion`padding-right: 3px;`}>{name}</Typography>
-                                { replyName() }
+                                {replyName()}
                                 <Typography
-                                    textType={'contents'}>{content}</Typography>
+                                    textType={'contents'}>{contents}</Typography>
                             </div>
                         </Grid>
                     </Grid>
@@ -130,16 +158,17 @@ function CommentRow({no, type, name, replyNo, content, comments, deleteComment})
     } else if (comState === "edit") {
         return <CommentInput type={type}
                              editNo={no}
-                             oldValue={content}
+                             oldValue={contents}
                              editDone={changeComState}
         />
     }
 }
 
 CommentRow.propTypes = {
+    no: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    // name: PropTypes.string.isRequired,
+    // content: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import {css as cssEmotion, jsx} from "@emotion/core";
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 import Typography from "../components/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -17,7 +17,9 @@ import {commentCreator} from "../reducers/comment";
 import {connect} from "react-redux";
 
 
-function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, addReplyBtn, reactComment }) {
+function CommentRowButtons({no, type, postedTime, comments, addReplyBtn, reactComment}) {
+    const {parentNo, reaction, updated} = comments[parseInt(no)];
+
     const now = new Date();
     let timeDiff = '';
     const timeDiffText = ["주", "일", "시간", "분", "초"];
@@ -48,11 +50,26 @@ function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, 
                       justify="space-between"
                       css={cssEmotion`margin-left: 10px;`}>
                     <Grid item>
-                        <Typography
-                            component={"a"}
-                            hyperlink
-                            onClick={clickReactBtn}
-                            css={cssEmotion`padding-right: 2px;`}>좋아요</Typography>
+                        {
+                            reaction &&
+                            reaction.includes("Hojeong Choi")
+                                ?
+                                <Typography
+                                    component={"a"}
+                                    hyperlink
+                                    onClick={clickReactBtn}
+                                    css={cssEmotion`
+                                    font-weight: 600;
+                                    padding-right: 2px;
+                                    `}>좋아요 취소</Typography>
+                                :
+                                <Typography
+                                    component={"a"}
+                                    hyperlink
+                                    onClick={clickReactBtn}
+                                    css={cssEmotion`padding-right: 2px;`}>좋아요</Typography>
+                        }
+
                         <span>・</span>
                         <Typography
                             component={"a"}
@@ -95,8 +112,15 @@ function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, 
 }
 
 CommentRowButtons.propTypes = {
+    no: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     postedTime: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = (state) => {
+    return {
+        'comments': state.comments,
+    }
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -105,4 +129,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(null, mapDispatchToProps)(CommentRowButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentRowButtons);

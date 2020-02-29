@@ -1,5 +1,5 @@
 /** @jsx jsx*/
-import {css as cssEmotion, css, jsx} from "@emotion/core";
+import {css as cssEmotion, jsx} from "@emotion/core";
 import React from 'react';
 import LikeIcon from "assets/like.png";
 import Grid from "@material-ui/core/Grid";

@@ -14,7 +14,6 @@ const avatarSizes = {
     comment: css`
       height: 32px;
       width: 32px;
-      margin-right: 6px;
       margin-top: 3px;
     `,
     reply: css`

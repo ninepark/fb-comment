@@ -43,14 +43,11 @@ function CommentList({comments}) {
                                 type={com.parentNo === null ? "comment" : "reply"}
                                 name={com.name}
                                 replyNo={com.replyNo}
-                                content={com.contents}/>
+                                contents={com.contents}/>
                     <CommentRowButtons key={`btn-${com.no}`}
                                        no={com.no}
                                        type={com.parentNo === null ? "comment" : "reply"}
                                        postedTime={com.time}
-                                       updated={com.updated}
-                                       reaction={com.reaction}
-                                       parentNo={com.parentNo}
                                        addReplyBtn={showReplyInput}/>
                 </React.Fragment>
             )
