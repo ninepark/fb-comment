@@ -77,8 +77,8 @@ function CommentRow({no, type, name, content, deleteComment}) {
                         </Grid>
                     </Grid>
                 </Grid>
-                {isShown && (
-                    <>
+                {
+                    isShown && (<>
                         <Grid item xs={1} container
                               alignItems='center'
                               css={cssEmotion`
@@ -86,7 +86,7 @@ function CommentRow({no, type, name, content, deleteComment}) {
                               `}>
                             <Tooltip title={
                                 <Typography textType="tooltip" component={"p"}>
-                                    숨기기 또는 신고
+                                    {name === "Hojeong Choi" ? "수정 또는 삭제" : "숨기기 또는 신고"}
                                 </Typography>
                             }
                                      arrow
@@ -95,14 +95,18 @@ function CommentRow({no, type, name, content, deleteComment}) {
                                                css={cssEmotion`color: gray; ursor: pointer;`}/>
                             </Tooltip>
                         </Grid>
+                    </>)
+                }
+                {
+                    name === "Hojeong Choi" ?
                         <Menu anchorEl={anchorEl}
                               open={Boolean(anchorEl)}
                               onClose={menuOpen}>
                             <MenuItem onClick={updateClick}>수정</MenuItem>
                             <MenuItem onClick={deleteClick}>삭제</MenuItem>
                         </Menu>
-                    </>
-                )}
+                        : null
+                }
             </Grid>
         )
     } else if (comState === "edit") {

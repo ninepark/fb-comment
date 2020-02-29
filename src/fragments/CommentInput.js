@@ -15,12 +15,14 @@ function CommentInput({type, parentNo=null, editNo=null, oldValue = '', editDone
 
     const enterPress = (e) => {
         if (e.key === 'Enter') {
-            if (!edit) addCom(e.target.value, parentNo);
+            if (!edit) {
+                addCom(e.target.value, parentNo);
+                inputClear(parentNo);
+            }
             else {
                 updateCom(editNo, e.target.value);
                 editDone();
             }
-            inputClear(parentNo);
             e.target.value = '';
         }
     };

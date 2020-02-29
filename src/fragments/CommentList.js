@@ -3,9 +3,7 @@ import {css, jsx} from "@emotion/core";
 import React, {useState} from 'react';
 import {connect} from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
 import Container from "components/Container";
-import Typography from "components/Typography";
 import CommentRow from "./CommentRow";
 import CommentInput from "./CommentInput";
 import CommentRowButtons from "./CommentRowButtons";
@@ -80,7 +78,8 @@ function CommentList({comments}) {
                 }
             </Container>
             <Container css={css`padding: 0 10px;`}>
-                <CommentInput type={"comment"}/>
+                <CommentInput type={"comment"}
+                              inputClear={removeReply}/>
             </Container>
         </Container>
     )
