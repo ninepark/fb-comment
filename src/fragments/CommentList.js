@@ -9,7 +9,7 @@ import CommentInput from "./CommentInput";
 import CommentRowButtons from "./CommentRowButtons";
 
 function CommentList({comments}) {
-    const [addReplyArr, setAddReplyArr] = useState([]);
+    const [addReplyObj, setAddReplyObj] = useState({});
 
     const commentKey = Object.keys(comments).filter(k => comments[k].parentNo === null);
     let sortedComment = [];
@@ -22,18 +22,17 @@ function CommentList({comments}) {
         sortedComment.push(arr);
     }
 
-    const showReplyInput = (parentNo) => {
-        let arr = [...addReplyArr];
-        arr.push(parseInt(parentNo));
-        arr.splice(0, arr.length, ...(new Set(arr)));
-        setAddReplyArr(arr);
+    const showReplyInput = (no, parentNo) => {
+        let obj = {...addReplyObj};
+        if (!parentNo) obj[no] = no;
+        else obj[parentNo] = no;
+        setAddReplyObj(obj);
     };
 
     const removeReply = (parentNo) => {
-        let arr = [...addReplyArr];
-        let idx = arr.indexOf(parentNo);
-        arr.splice(idx, 1);
-        setAddReplyArr(arr);
+        let obj = {...addReplyObj};
+        delete obj[parentNo];
+        setAddReplyObj(obj);
     };
 
     const renderComment = (commentArr, parentNo) => {
@@ -43,6 +42,7 @@ function CommentList({comments}) {
                                 no={com.no}
                                 type={com.parentNo === null ? "comment" : "reply"}
                                 name={com.name}
+                                replyNo={com.replyNo}
                                 content={com.contents}/>
                     <CommentRowButtons key={`btn-${com.no}`}
                                        no={com.no}
@@ -55,11 +55,13 @@ function CommentList({comments}) {
                 </React.Fragment>
             )
         });
-        if (addReplyArr.includes(parseInt(parentNo))) {
+        let idx = Object.keys(addReplyObj).indexOf(parentNo.toString());
+        if (idx !== -1) {
             result.push(
                     <CommentInput key={`parComInput-${parentNo}`}
                                   type={"reply"}
                                   parentNo={parentNo}
+                                  replyNo={addReplyObj[parentNo]}
                                   inputClear={removeReply}/>
                 )
         }

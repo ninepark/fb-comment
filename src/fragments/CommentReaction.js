@@ -3,6 +3,8 @@ import {css as cssEmotion, css, jsx} from "@emotion/core";
 import React from 'react';
 import LikeIcon from "assets/like.png";
 import Grid from "@material-ui/core/Grid";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "components/Typography";
 
 const cssBox = cssEmotion`
 width: 30px;
@@ -15,22 +17,37 @@ padding: 2px 4px;
 `;
 
 const cssReactionIcon = cssEmotion`
- width: 16px;
- height: 16px;
+ width: 14px;
+ height: 14px;
 `;
 
-function CommentReaction({ reaction }) {
+function CommentReaction({reaction}) {
     if (reaction) {
+        if (reaction.length === 0) return null;
         return (
             <Grid container
-                  alignItems="center"
                   css={cssBox}>
+                <Tooltip title={
+                    reaction.map((v, i) => {
+                        return (
+                            <Typography key={i}
+                                        textType="tooltip"
+                                        component={"p"}>
+                                {v}
+                            </Typography>
+                        )
+                    })
+                } arrow>
+                    <Grid container
+                          alignItems="center">
+                        <img src={LikeIcon}
+                             alt="like"
+                             css={[cssReactionIcon, cssEmotion`margin-right: 3px;`]}
+                        />
+                        {reaction.length}
+                    </Grid>
+                </Tooltip>
 
-                <img src={LikeIcon}
-                     alt="like"
-                     css={[cssReactionIcon, cssEmotion`margin-right: 3px;`]}
-                />
-                {2}
             </Grid>
         )
     } else return null;

@@ -21,7 +21,7 @@ const cssCommentBox = cssEmotion`
  padding: 8px 10px; 
  `;
 
-function CommentRow({no, type, name, content, deleteComment}) {
+function CommentRow({no, type, name, replyNo, content, comments, deleteComment}) {
     const [isShown, setIsShown] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [comState, setComState] = useState("show");
@@ -43,6 +43,23 @@ function CommentRow({no, type, name, content, deleteComment}) {
 
     const changeComState = () => {
         setComState("show");
+    };
+
+    const replyName = () => {
+        if (replyNo) {
+            let name = '';
+            Object.values(comments).some((v) => {
+                if (v.no === replyNo.toString()) {
+                    name = v.name;
+                }
+            });
+
+            return (
+                <Typography
+                    component={"a"}
+                    css={cssEmotion`padding-right: 3px;`}>{name}</Typography>
+            )
+        } else return null;
     };
 
     if (comState === "show") {
@@ -71,6 +88,7 @@ function CommentRow({no, type, name, content, deleteComment}) {
                                     textType={'userName'}
                                     hyperlink
                                     css={cssEmotion`padding-right: 3px;`}>{name}</Typography>
+                                { replyName() }
                                 <Typography
                                     textType={'contents'}>{content}</Typography>
                             </div>
@@ -124,10 +142,16 @@ CommentRow.propTypes = {
     content: PropTypes.string.isRequired,
 };
 
+const mapStateToProps = (state) => {
+    return {
+        'comments': state.comments,
+    }
+};
+
 const mapDispatchToProps = (dispatch) => ({
     deleteComment: (no) => {
         dispatch(commentCreator.deleteComment(no));
     }
 });
 
-export default connect(null, mapDispatchToProps)(CommentRow);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentRow);

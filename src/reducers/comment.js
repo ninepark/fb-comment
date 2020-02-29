@@ -3,10 +3,11 @@ export const ADD_COMMENT = "ADD_COMMENT";
 export const UPDATE_COMMENT = "UPDATE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const REACT_COMMENT = "REACT_COMMENT";
+// export const UNDO_REACT_COMMENT = "UNDO_REACT_COMMENT";
 
 /** action creators */
-const addComment = (contents, time, parentNo = null, name = "Hojeong Choi") => {
-    return {type: ADD_COMMENT, contents, time, name, parentNo};
+const addComment = (contents, time, parentNo = null, replyNo=null, name = "Hojeong Choi") => {
+    return {type: ADD_COMMENT, contents, time, name, parentNo, replyNo};
 };
 
 const updateComment = (no, contents) => {
@@ -17,18 +18,21 @@ const deleteComment = (no) => {
     return {type: DELETE_COMMENT, no};
 };
 
+const reactComment = (no) => {
+    return {type: REACT_COMMENT, no};
+};
+
 export const commentCreator = {
     addComment,
     updateComment,
     deleteComment,
+    reactComment,
 };
 
 /** reducer */
 export default function commentReducer(state = initialState, action) {
-
     switch (action.type) {
         case ADD_COMMENT:
-            console.log('reducer', action.parentNo);
             const newNo = Math.max.apply(Math, Object.keys(state)) + 1;
             state[newNo] = {
                 no: newNo.toString(),
@@ -36,8 +40,7 @@ export default function commentReducer(state = initialState, action) {
                 contents: action.contents,
                 time: action.time,
                 parentNo: action.parentNo,
-                replyNo: null,
-                // depth: 1,
+                replyNo: action.replyNo,
                 reaction: null,
                 updated: false
             };
@@ -63,6 +66,19 @@ export default function commentReducer(state = initialState, action) {
                 ...state
             };
 
+        case REACT_COMMENT:
+            const reactionArr = state[action.no].reaction;
+            if (!reactionArr) {
+                state[action.no].reaction = ["Hojeong Choi"];
+            } else {
+                let idx = reactionArr.indexOf("Hojeong Choi");
+                idx === -1 ? reactionArr.push("Hojeong Choi") : reactionArr.splice(idx, 1);
+            }
+
+            return {
+                ...state
+            };
+
         default:
             return state;
     }
@@ -76,7 +92,6 @@ const initialState = {
         time: "2020/02/26/00:00:00",
         parentNo: null,
         replyNo: null,
-        // depth: 1,
         reaction: null,
         updated: false
     },
@@ -87,8 +102,7 @@ const initialState = {
         time: "2020/02/27/02:10:00",
         parentNo: null,
         replyNo: null,
-        // depth: 1,
-        reaction: null,
+        reaction: ['강앨리'],
         updated: true
     },
     3: {
@@ -98,7 +112,6 @@ const initialState = {
         time: "2020/02/27/14:38:00",
         parentNo: "1",
         replyNo: "1",
-        // depth: 2,
         reaction: null,
         updated: false
     },
@@ -109,8 +122,7 @@ const initialState = {
         time: "2020/02/27/22:00:00",
         parentNo: null,
         replyNo: null,
-        // depth: 1,
-        reaction: null,
+        reaction: ['김페북', '박로라'],
         updated: false
     },
     5: {
@@ -120,7 +132,6 @@ const initialState = {
         time: "2020/02/28/01:30:00",
         parentNo: "1",
         replyNo: "3",
-        // depth: 2,
         reaction: null,
         updated: false
     },
@@ -131,7 +142,6 @@ const initialState = {
         time: "2020/02/28/21:53:20",
         parentNo: "4",
         replyNo: "4",
-        // depth: 2,
         reaction: null,
         updated: false
     },
@@ -142,7 +152,6 @@ const initialState = {
         time: "2020/02/28/22:02:01",
         parentNo: "1",
         replyNo: "1",
-        // depth: 2,
         reaction: null,
         updated: false
     }

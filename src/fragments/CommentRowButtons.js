@@ -13,9 +13,11 @@ import {
     differenceInWeeks
 } from "date-fns";
 import CommentReaction from "./CommentReaction";
+import {commentCreator} from "../reducers/comment";
+import {connect} from "react-redux";
 
 
-function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, addReplyBtn }) {
+function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, addReplyBtn, reactComment }) {
     const now = new Date();
     let timeDiff = '';
     const timeDiffText = ["주", "일", "시간", "분", "초"];
@@ -29,8 +31,11 @@ function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, 
     oriPostTime = oriPostTime.toDateString() + " " + oriPostTime.toTimeString().slice(0, 8);
 
     const clickReplyBtn = () => {
-        let commentNo = parentNo || no;
-        addReplyBtn(commentNo);
+        addReplyBtn(no, parentNo);
+    };
+
+    const clickReactBtn = () => {
+        reactComment(no);
     };
 
     return (
@@ -46,7 +51,7 @@ function CommentRowButtons({ no, type, postedTime, updated, reaction, parentNo, 
                         <Typography
                             component={"a"}
                             hyperlink
-                            // onClick={}
+                            onClick={clickReactBtn}
                             css={cssEmotion`padding-right: 2px;`}>좋아요</Typography>
                         <span>・</span>
                         <Typography
@@ -94,4 +99,10 @@ CommentRowButtons.propTypes = {
     postedTime: PropTypes.string.isRequired,
 };
 
-export default CommentRowButtons;
+const mapDispatchToProps = (dispatch) => ({
+    reactComment: (no) => {
+        dispatch(commentCreator.reactComment(no));
+    }
+});
+
+export default connect(null, mapDispatchToProps)(CommentRowButtons);

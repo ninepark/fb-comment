@@ -10,7 +10,7 @@ import {commentCreator} from "../reducers/comment";
 import lightFormat from 'date-fns/lightFormat'
 
 
-function CommentInput({type, parentNo=null, editNo=null, oldValue = '', editDone, inputClear, addComment, updateComment}) {
+function CommentInput({type, parentNo=null, replyNo=null, editNo=null, oldValue = '', editDone, inputClear, addComment, updateComment}) {
     const edit = oldValue !== '' ? true : false;
 
     const enterPress = (e) => {
@@ -29,7 +29,7 @@ function CommentInput({type, parentNo=null, editNo=null, oldValue = '', editDone
 
     const addCom = (contents, parent) => {
         const time = lightFormat(new Date(), 'yyyy/MM/dd/HH:mm:ss');
-        addComment(contents, time, parent);
+        addComment(contents, time, parent, replyNo);
     };
 
     const updateCom = (no, content) => {
@@ -83,8 +83,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    addComment: (contents, time, parentNo, name) => {
-        dispatch(commentCreator.addComment(contents, time, parentNo, name));
+    addComment: (contents, time, parentNo, replyNo, name) => {
+        dispatch(commentCreator.addComment(contents, time, parentNo, replyNo, name));
     },
     updateComment: (no, contents) => {
         dispatch(commentCreator.updateComment(no, contents));
