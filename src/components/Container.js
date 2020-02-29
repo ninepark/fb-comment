@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { css as cssEmotion, jsx } from "@emotion/core";
 
-export default function Container(props) {
-  const { component, css, children, ...inheritProps } = props;
+function Container({ component, css, children, ...inheritProps }) {
   return jsx(
     component,
     {
@@ -14,7 +13,7 @@ export default function Container(props) {
         box-sizing: border-box;
         margin-left: auto;
         margin-right: auto;
-        border-radius: 5px;
+        border-radius: 3px;
       `,
         css
       ]
@@ -31,3 +30,5 @@ Container.proptTypes = {
 Container.defaultProps = {
   component: "div"
 };
+
+export default Container;
