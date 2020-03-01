@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e581a9efc53c90975461dd56a7ecca14",
+    "revision": "096cdc5e6e21c0e9c54a3d5ac8f809c5",
     "url": "/fb-comment/index.html"
   },
   {
-    "revision": "f89c164d3364eb6bc3ee",
+    "revision": "7d640507eef5847a7f46",
     "url": "/fb-comment/static/css/main.29d29e65.chunk.css"
   },
   {
-    "revision": "4062fdf5e55675df048f",
-    "url": "/fb-comment/static/js/2.ca043fee.chunk.js"
+    "revision": "ef0ff6c8eaa90f78a58c",
+    "url": "/fb-comment/static/js/2.f7c7242e.chunk.js"
   },
   {
-    "revision": "6f5f1c4a5f7f6e382b8aeca1b4ac8d96",
-    "url": "/fb-comment/static/js/2.ca043fee.chunk.js.LICENSE.txt"
+    "revision": "162eb004356921bb73b8a79d8382ee09",
+    "url": "/fb-comment/static/js/2.f7c7242e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f89c164d3364eb6bc3ee",
-    "url": "/fb-comment/static/js/main.832db20a.chunk.js"
+    "revision": "7d640507eef5847a7f46",
+    "url": "/fb-comment/static/js/main.d21d7f26.chunk.js"
   },
   {
     "revision": "4f8fc8b38cd442277abe",
