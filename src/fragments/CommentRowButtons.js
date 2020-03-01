@@ -12,7 +12,6 @@ import {
     differenceInSeconds,
     differenceInWeeks
 } from "date-fns";
-import CommentReaction from "./CommentReaction";
 import {commentCreator} from "../reducers/comment";
 import {connect} from "react-redux";
 
@@ -20,8 +19,8 @@ import {connect} from "react-redux";
 function CommentRowButtons({no, type, postedTime, comments, addReplyBtn, reactComment}) {
     const {parentNo, reaction, updated} = comments[parseInt(no)];
 
-    let parsedTime = postedTime.split("/").slice(0,3).join("-");
-    parsedTime = parsedTime+"T"+postedTime.split("/")[3];
+    let parsedTime = postedTime.split("/").slice(0, 3).join("-");
+    parsedTime = parsedTime + "T" + postedTime.split("/")[3];
     const now = new Date();
     let timeDiff = '';
     const timeDiffText = ["주", "일", "시간", "분", "초"];
@@ -45,8 +44,14 @@ function CommentRowButtons({no, type, postedTime, comments, addReplyBtn, reactCo
     return (
         <Grid container
               css={cssEmotion`padding-bottom: 5px;`}>
-            <Grid item xs={type === "comment" ? 1 : 2}></Grid>
-            <Grid item xs={type === "comment" ? 9 : 8}>
+            {
+                type === "reply"
+                    ? <Grid item xs={1}></Grid>
+                    : null
+            }
+            <Grid item
+                  xs={type === "comment" ? 9 : 8}
+                  css={type === "comment" ? cssEmotion`padding-left: 37px;` : cssEmotion`padding-left: 32px;`}>
                 <Grid container
                       direction="row"
                       justify="space-between"
@@ -71,7 +76,6 @@ function CommentRowButtons({no, type, postedTime, comments, addReplyBtn, reactCo
                                     onClick={clickReactBtn}
                                     css={cssEmotion`padding-right: 2px;`}>좋아요</Typography>
                         }
-
                         <span>・</span>
                         <Typography
                             component={"a"}
@@ -102,9 +106,6 @@ function CommentRowButtons({no, type, postedTime, comments, addReplyBtn, reactCo
                                 </>
                             )
                         }
-                    </Grid>
-                    <Grid item>
-                        <CommentReaction reaction={reaction}/>
                     </Grid>
                 </Grid>
             </Grid>

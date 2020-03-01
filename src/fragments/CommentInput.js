@@ -46,7 +46,10 @@ function CommentInput({type, parentNo=null, replyNo=null, editNo=null, oldValue 
                     ? <Grid item xs={1}></Grid>
                     : null
             }
-            <Grid item container xs={1} justify="flex-end">
+            <Grid item container xs={1} justify={type === "comment" ? "flex-start" : "flex-end"}
+                  css={css`
+            padding-left: 3px;
+            `}>
                 <Avatar type={type}/>
             </Grid>
             <Grid item xs={type === "comment" ? 11 : 10}>

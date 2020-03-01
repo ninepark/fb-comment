@@ -14,9 +14,6 @@ export const textTypes = {
     userName: cssEmotion`
     font-weight: 600;
   `,
-    userCall: cssEmotion`
-    color: #8d949e;
-  `,
     contents: cssEmotion`
     color: #1c1e21;
     font-size: 13px;

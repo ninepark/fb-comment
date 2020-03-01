@@ -43,7 +43,8 @@ function CommentList({comments}) {
                                 type={com.parentNo === null ? "comment" : "reply"}
                                 name={com.name}
                                 replyNo={com.replyNo}
-                                contents={com.contents}/>
+                                contents={com.contents}
+                                reaction={com.reaction}/>
                     <CommentRowButtons key={`btn-${com.no}`}
                                        no={com.no}
                                        type={com.parentNo === null ? "comment" : "reply"}
