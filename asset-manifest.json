@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/fb-comment/static/css/main.29d29e65.chunk.css",
-    "main.js": "/fb-comment/static/js/main.c92c4b4c.chunk.js",
-    "main.js.map": "/fb-comment/static/js/main.c92c4b4c.chunk.js.map",
+    "main.js": "/fb-comment/static/js/main.832db20a.chunk.js",
+    "main.js.map": "/fb-comment/static/js/main.832db20a.chunk.js.map",
     "runtime-main.js": "/fb-comment/static/js/runtime-main.d49cbaea.js",
     "runtime-main.js.map": "/fb-comment/static/js/runtime-main.d49cbaea.js.map",
     "static/js/2.ca043fee.chunk.js": "/fb-comment/static/js/2.ca043fee.chunk.js",
     "static/js/2.ca043fee.chunk.js.map": "/fb-comment/static/js/2.ca043fee.chunk.js.map",
     "index.html": "/fb-comment/index.html",
-    "precache-manifest.1f476e73c3aa73fb44074ced482d4047.js": "/fb-comment/precache-manifest.1f476e73c3aa73fb44074ced482d4047.js",
+    "precache-manifest.9beacdbc37a6a5266146428009252c65.js": "/fb-comment/precache-manifest.9beacdbc37a6a5266146428009252c65.js",
     "service-worker.js": "/fb-comment/service-worker.js",
     "static/css/main.29d29e65.chunk.css.map": "/fb-comment/static/css/main.29d29e65.chunk.css.map",
     "static/js/2.ca043fee.chunk.js.LICENSE.txt": "/fb-comment/static/js/2.ca043fee.chunk.js.LICENSE.txt",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.d49cbaea.js",
     "static/js/2.ca043fee.chunk.js",
     "static/css/main.29d29e65.chunk.css",
-    "static/js/main.c92c4b4c.chunk.js"
+    "static/js/main.832db20a.chunk.js"
   ]
 }
