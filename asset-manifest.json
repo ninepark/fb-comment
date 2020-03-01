@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/fb-comment/static/css/main.29d29e65.chunk.css",
+    "main.js": "/fb-comment/static/js/main.c92c4b4c.chunk.js",
+    "main.js.map": "/fb-comment/static/js/main.c92c4b4c.chunk.js.map",
+    "runtime-main.js": "/fb-comment/static/js/runtime-main.d49cbaea.js",
+    "runtime-main.js.map": "/fb-comment/static/js/runtime-main.d49cbaea.js.map",
+    "static/js/2.ca043fee.chunk.js": "/fb-comment/static/js/2.ca043fee.chunk.js",
+    "static/js/2.ca043fee.chunk.js.map": "/fb-comment/static/js/2.ca043fee.chunk.js.map",
+    "index.html": "/fb-comment/index.html",
+    "precache-manifest.1f476e73c3aa73fb44074ced482d4047.js": "/fb-comment/precache-manifest.1f476e73c3aa73fb44074ced482d4047.js",
+    "service-worker.js": "/fb-comment/service-worker.js",
+    "static/css/main.29d29e65.chunk.css.map": "/fb-comment/static/css/main.29d29e65.chunk.css.map",
+    "static/js/2.ca043fee.chunk.js.LICENSE.txt": "/fb-comment/static/js/2.ca043fee.chunk.js.LICENSE.txt",
+    "static/media/avatar.4cb5b483.svg": "/fb-comment/static/media/avatar.4cb5b483.svg",
+    "static/media/comment.svg": "/fb-comment/static/media/comment.698fcf50.svg",
+    "static/media/theEyeOfDarkness.jpg": "/fb-comment/static/media/theEyeOfDarkness.a78d2be1.jpg",
+    "static/media/thumbup.svg": "/fb-comment/static/media/thumbup.61b20242.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d49cbaea.js",
+    "static/js/2.ca043fee.chunk.js",
+    "static/css/main.29d29e65.chunk.css",
+    "static/js/main.c92c4b4c.chunk.js"
+  ]
+}
