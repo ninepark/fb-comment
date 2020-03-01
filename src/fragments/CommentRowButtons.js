@@ -20,16 +20,18 @@ import {connect} from "react-redux";
 function CommentRowButtons({no, type, postedTime, comments, addReplyBtn, reactComment}) {
     const {parentNo, reaction, updated} = comments[parseInt(no)];
 
+    let parsedTime = postedTime.split("/").slice(0,3).join("-");
+    parsedTime = parsedTime+"T"+postedTime.split("/")[3];
     const now = new Date();
     let timeDiff = '';
     const timeDiffText = ["주", "일", "시간", "분", "초"];
     [differenceInWeeks, differenceInDays, differenceInHours,
         differenceInMinutes, differenceInSeconds].some((f, i) => {
-        timeDiff = `${Math.abs(f(new Date(postedTime), now))}${timeDiffText[i]}`;
-        return f(new Date(postedTime), now) !== 0;
+        timeDiff = `${Math.abs(f(new Date(parsedTime), now))}${timeDiffText[i]}`;
+        return f(new Date(parsedTime), now) !== 0;
     });
 
-    let oriPostTime = new Date(postedTime);
+    let oriPostTime = new Date(parsedTime);
     oriPostTime = oriPostTime.toDateString() + " " + oriPostTime.toTimeString().slice(0, 8);
 
     const clickReplyBtn = () => {
